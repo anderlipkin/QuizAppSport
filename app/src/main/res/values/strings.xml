@@ -1,3 +1,32 @@
 <resources>
     <string name="app_name">QuizAppSport</string>
+    <string name="ok_button_label">OK</string>
+    <string name="cancel_button_label">Cancel</string>
+    <string name="welcome_message">Welcome to QuizApp</string>
+    <string name="et_hint_email">Email</string>
+    <string name="et_hint_pass">Password</string>
+    <string name="btn_login">Login</string>
+    <string name="btn_register">Register</string>
+    <string name="back_to_login">Already a member? Login</string>
+    <string name="et_hint_full_name">Full Name</string>
+    <string name="et_hint_nickname">Nickname</string>
+    <string name="et_age">Age</string>
+    <string name="gender">Gender:</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
+    <string name="no_account">No account yet? Create one</string>
+    <string name="error_message_name">Enter NickName</string>
+    <string name="error_message_email">Enter Valid Email</string>
+    <string name="error_message_age">Enter Age</string>
+    <string name="error_message_gender">Choose gender</string>
+    <string name="error_message_password">Enter Password</string>
+    <string name="success_message">Registration Successful</string>
+    <string name="error_email_exists">Email or NickName Already Exists</string>
+    <string name="error_valid_email_password">Wrong Email or Password</string>
+    <string name="logout">Logout</string>
+    <string name="completed_quiz">Congratulation %s you have completed the quiz!</string>
+    <string name="score_message">You scored %1$d points out of %2$d</string>
+    <string name="best_score_msg">Your best score was %d points!</string>
+    <string name="less_points_msg">Unfortunately today you scored less points - %d</string>
+    <string name="new_record_msg">You set up your new record scored %d points</string>
 </resources>

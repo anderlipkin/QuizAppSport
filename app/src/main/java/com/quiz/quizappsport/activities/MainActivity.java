@@ -1,13 +1,25 @@
-package com.quiz.quizappsport;
+package com.quiz.quizappsport.activities;
 
+import android.content.DialogInterface;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import com.google.gson.Gson;
 import com.questionQuiz.quizappsport.R;
+import com.quiz.quizappsport.QuestionQuiz;
+import com.quiz.quizappsport.adapters.QuizListAdapter;
+import com.quiz.quizappsport.Session;
+import com.quiz.quizappsport.User;
+import com.quiz.quizappsport.database.UsersDbHelper;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,26 +34,130 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
+    private RecyclerView.LayoutManager mLayoutManager;
+    private FloatingActionButton fab;
+    private Toolbar toolbar;
 
-    QuizListAdapter mAdapter;
+    private QuizListAdapter quizAdapter;
+
+    private Session session;
+
+    private User user;
+
+    private UsersDbHelper usersDbHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        mRecyclerView = (RecyclerView) findViewById(R.id.list);
+        initObjects();
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        session.checkLogin();
 
-        QuestionQuiz startQuestionQuiz = new QuestionQuiz();
+        bindViews();
+        setViewActions();
+
+        usersDbHelper = UsersDbHelper.getInstance(getApplication());
+
+        int idUser = session.getUserId();
+
+        user = usersDbHelper.getUser(idUser);
 
         new GetQuestions().execute();
+
+    }
+
+    private void initObjects() {
+        session = new Session(getApplicationContext());
+    }
+
+    private void bindViews() {
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        mRecyclerView = (RecyclerView) findViewById(R.id.list);
+        mRecyclerView.setHasFixedSize(true);
+    }
+
+    private void setViewActions() {
+        fab.setOnClickListener(this);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.miLogout:
+                session.logoutUser();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fab:
+                int score = quizAdapter.getUserPoint();
+                user.setScore(score);
+                viewResultScore();
+                saveUserScoreToDB(score);
+                break;
+        }
+    }
+
+    private void saveUserScoreToDB(int userPoint) {
+        if (userPoint > user.getBestScore()) {
+            usersDbHelper.updateBestScore(user.getId(), userPoint);
+            user.setBestScore(userPoint);
+        }
+    }
+
+    public void viewResultScore() {
+        int bestScore = user.getBestScore();
+        int score = user.getScore();
+
+        StringBuilder resultMessage = new StringBuilder();
+        resultMessage
+                .append(getString(R.string.score_message, score, quizAdapter.getItemCount()))
+                .append("\n" + getString(R.string.best_score_msg, bestScore));
+
+        if (user.getBestScore() > user.getScore()) {
+            resultMessage.append("\n" + getString(R.string.less_points_msg, score));
+        } else {
+            resultMessage.append("\n" + getString(R.string.new_record_msg, score));
+        }
+
+        new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setTitle(getString(R.string.completed_quiz, user.getNickName().toUpperCase()))
+                .setMessage(resultMessage.toString())
+                .setPositiveButton("Reset", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        refreshQuizAdapter();
+                    }
+                }).show();
+    }
+
+
+    private void refreshQuizAdapter() {
+        mRecyclerView.setAdapter(null);
+        mRecyclerView.setLayoutManager(null);
+        mRecyclerView.setAdapter(quizAdapter);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+        quizAdapter.resetUserPoint();
     }
 
     private class GetQuestions extends AsyncTask<String, Void, List<QuestionQuiz>> {
@@ -70,9 +186,11 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(List<QuestionQuiz> questionQuiz) {
             super.onPostExecute(questionQuiz);
 
-            mAdapter = new QuizListAdapter(MainActivity.this, questionQuiz);
-            mRecyclerView.setAdapter(mAdapter);
-            mRecyclerView.setLayoutManager(new LinearLayoutManager(MainActivity.this));
+
+            quizAdapter = new QuizListAdapter(MainActivity.this, questionQuiz);
+            mRecyclerView.setAdapter(quizAdapter);
+            mLayoutManager = new LinearLayoutManager(MainActivity.this);
+            mRecyclerView.setLayoutManager(mLayoutManager);
         }
 
         private Document getHtml(){

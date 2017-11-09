@@ -5,7 +5,7 @@
     android:id="@+id/placeCard"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
+    android:layout_margin="4dp"
     cardView:cardCornerRadius="4dp"
     cardView:cardElevation="@dimen/cardview_default_elevation">
 
@@ -13,7 +13,7 @@
         android:id="@+id/placeImage"
         android:src="@drawable/football"
         android:layout_width="match_parent"
-        android:layout_height="112dp"
+        android:layout_height="156dp"
         android:scaleType="fitXY"/>
 
     <!-- Used for the ripple effect on touch -->
@@ -27,20 +27,21 @@
     <LinearLayout
         android:id="@+id/questionTitleHolder"
         android:layout_width="match_parent"
-        android:layout_height="48dp"
+        android:layout_height="70dp"
         android:layout_gravity="bottom"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:background="#77000000">
         
         <TextView
             android:id="@+id/questionTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:gravity="start"
-            android:padding="12dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Large"
-            android:textColor="@android:color/white"
-            android:background="#77000000"/>
+            android:gravity="fill_horizontal"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="4dp"
+            android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+            android:textColor="@android:color/white" />
 
     </LinearLayout>
 
