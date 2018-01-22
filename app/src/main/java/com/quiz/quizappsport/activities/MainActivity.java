@@ -16,9 +16,9 @@ import android.view.View;
 import com.google.gson.Gson;
 import com.questionQuiz.quizappsport.R;
 import com.quiz.quizappsport.QuestionQuiz;
-import com.quiz.quizappsport.adapters.QuizListAdapter;
 import com.quiz.quizappsport.Session;
 import com.quiz.quizappsport.User;
+import com.quiz.quizappsport.adapters.QuizListAdapter;
 import com.quiz.quizappsport.database.UsersDbHelper;
 
 import org.json.JSONArray;
@@ -230,7 +230,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     String question = rowQuestion.text();
 
                     if (question.matches("^\\d+\\..*")){
-                        JSONObject itemQuiz = new JSONObject();
                         JSONObject jsonQuestion = new JSONObject();
                         JSONArray listOptions = new JSONArray();
 

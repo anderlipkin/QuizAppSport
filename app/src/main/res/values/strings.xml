@@ -29,4 +29,5 @@
     <string name="best_score_msg">Your best score was %d points!</string>
     <string name="less_points_msg">Unfortunately today you scored less points - %d</string>
     <string name="new_record_msg">You set up your new record scored %d points</string>
+    <string name="btn_answer">Answer</string>
 </resources>

@@ -25,9 +25,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:maxLines="1"
-
         android:hint="@string/et_hint_nickname"
         android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         android:inputType="text"/>
 
     <EditText
@@ -38,6 +38,7 @@
         android:maxLines="1"
         android:hint="@string/et_hint_email"
         android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         android:inputType="textEmailAddress"/>
 
     <EditText
@@ -48,6 +49,7 @@
         android:maxLines="1"
         android:hint="@string/et_hint_pass"
         android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         android:inputType="textPassword"/>
 
     <EditText
@@ -58,6 +60,7 @@
         android:inputType="date"
         android:layout_marginBottom="10dp"
         android:textColorHint="@android:color/white"
+        android:textColor="@android:color/white"
         android:hint="@string/et_age"/>
 
     <LinearLayout

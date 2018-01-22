@@ -2,16 +2,29 @@ package com.quiz.quizappsport;
 
 import java.util.List;
 
-/**
- * Created by anderlipkin on 10/24/17.
- */
-
 public class QuestionQuiz {
 
     private int id;
     private String question;
     private List<String> optionsAnswer;
     private String answer;
+
+    /**
+     * For using Json instead Gson
+    public QuestionQuiz(JSONObject object) {
+        try {
+            this.question = object.getString("question");
+            this.optionsAnswer = new ArrayList<>();
+            this.answer = object.getString("answer");
+            JSONArray options = object.getJSONArray("optionsAnswer");
+            for (int i = 0; i < options.length(); i++) {
+                this.optionsAnswer.add(options.getString(i));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+     */
 
     public String getAnswer() {
         return answer;
@@ -45,50 +58,19 @@ public class QuestionQuiz {
         this.optionsAnswer = optionsAnswer;
     }
 
+    /**
+     * For using Json instead Gson
+    public static ArrayList<User> fromJson(JSONArray jsonObjects) {
+        ArrayList<QuestionQuiz> questionsQuiz = new ArrayList<>();
 
-    /*
-
-    private Map<String, ArrayList<String>> questionAnswersMap;
-
-    private Map<String, ArrayList<String>> correctAnswerMap;
-
-    public QuestionQuiz() {
-        questionAnswersMap = new HashMap<String, ArrayList<String>>();
-        correctAnswerMap = new HashMap<String, ArrayList<String>>();
+        for (int i = 0; i < jsonObjects.length(); i++) {
+            try {
+                questionsQuiz.add(new QuestionQuiz(jsonObjects.getJSONObject(i)));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
     }
-
-    public void addQuestionOptionalAnswers(String question, ArrayList<String> answers){
-        questionAnswersMap.put(question, answers);
-    }
-
-    public void addAnswerToQuestion(String question, String answer){
-        if (questionAnswersMap.get(question) == null)
-            questionAnswersMap.put(question, new ArrayList<String>());
-
-        questionAnswersMap.get(question).add(answer);
-    }
-
-    public void addCorrectAnswer(String question, String answer) {
-        if (correctAnswerMap.get(question) == null)
-            correctAnswerMap.put(question, new ArrayList<String>());
-
-        correctAnswerMap.get(question).add(answer);
-    }
-
-    //public int checkCorrectAnswer() {
-
-    //}
-
-    public int numQuestions(){
-        return questionAnswersMap.keySet().size();
-    }
-
-    public String[] getQuestions() {
-        return questionAnswersMap.keySet().toArray(new String[numQuestions()]);
-    }
-
-*/
-
-
+     */
 
 }

@@ -38,7 +38,7 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_done"
         app:fabSize="normal"
-        app:layout_behavior="com.quiz.quizappsport.ScrollAwareFABBehavior"
+        app:layout_behavior="com.quiz.quizappsport.utils.ScrollAwareFABBehavior"
         app:layout_anchor="@id/list"
         app:layout_anchorGravity="bottom|right|end" />
 
